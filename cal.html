@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #bfc4d5, #1e2a78);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .calculator {
+      background: #013220; /* Dark Green */
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(255, 182, 193, 0.3);
+      width: 400px;
+    }
+
+    #display {
+      width: 90%;
+      padding: 15px;
+      font-size: 2.5rem;
+      text-align: right;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: #7bd0ad;
+      color: #000;
+      box-shadow: inset 0 0 5px #99ddff;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      background-color: #013220; /* Dark Green between buttons */
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    button.clear,
+    button.delete,
+    button.equal {
+      background-color: #22c55e; /* Green */
+      color: white;
+    }
+
+    button.clear:hover,
+    button.delete:hover,
+    button.equal:hover {
+      background-color: #16a34a; /* Darker Green */
+    }
+
+    button.number,
+    button.operator,
+    button.extra {
+      background-color: #f97316; /* Orange */
+      color: white;
+    }
+
+    button.number:hover,
+    button.operator:hover,
+    button.extra:hover {
+      background-color: #ea580c; /* Darker Orange */
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" disabled placeholder="0" />
+
+    <div class="buttons">
+      <!-- Row 1: AC & Delete first -->
+      <button class="clear" onclick="clearDisplay()">AC</button>
+      <button class="delete" onclick="deleteLast()">⌫</button>
+      <button class="operator" onclick="appendValue('(')">(</button>
+      <button class="operator" onclick="appendValue(')')">)</button>
+      <button class="operator" onclick="appendValue('%')">%</button>
+
+      <!-- Row 2: Extra math functions -->
+      <button class="number" onclick="appendValue('0')">0</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+      <button class="extra" onclick="appendValue('π')">π</button>
+      <button class="extra" onclick="appendValue('e')">e</button>
+      <button class="extra" onclick="applyFunction('sqrt')">√</button>
+
+      <!-- Row 3 -->
+      <button class="number" onclick="appendValue('7')">7</button>
+      <button class="number" onclick="appendValue('8')">8</button>
+      <button class="number" onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('/')">/</button>
+      <button class="operator" onclick="appendValue('^')">^</button>
+
+      <!-- Row 4 -->
+      <button class="number" onclick="appendValue('4')">4</button>
+      <button class="number" onclick="appendValue('5')">5</button>
+      <button class="number" onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('*')">*</button>
+      <button class="operator" onclick="appendValue('-')">-</button>
+
+      <!-- Row 5 -->
+      <button class="number" onclick="appendValue('1')">1</button>
+      <button class="number" onclick="appendValue('2')">2</button>
+      <button class="number" onclick="appendValue('3')">3</button>
+      <button class="operator" onclick="appendValue('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <!-- Final row -->
+      
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function appendValue(value) {
+      if (value === 'π') {
+        display.value += Math.PI.toFixed(8);
+      } else if (value === 'e') {
+        display.value += Math.E.toFixed(8);
+      } else {
+        display.value += value;
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "";
+    }
+
+    function deleteLast() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function applyFunction(type) {
+      try {
+        let currentVal = parseFloat(display.value);
+        if (isNaN(currentVal)) return;
+
+        switch (type) {
+          case 'log':
+            display.value = Math.log10(currentVal);
+            break;
+          case 'ln':
+            display.value = Math.log(currentVal);
+            break;
+          case 'sqrt':
+            display.value = Math.sqrt(currentVal);
+            break;
+          case 'square':
+            display.value = Math.pow(currentVal, 2);
+            break;
+        }
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    function calculate() {
+      try {
+        let expression = display.value.replace(/\^/g, '**');
+        const result = eval(expression);
+        display.value = result;
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    document.addEventListener("keydown", function (e) {
+      const key = e.key;
+      if (!isNaN(key) || "+-*/().%^".includes(key)) {
+        appendValue(key);
+      } else if (key === "Enter") {
+        calculate();
+      } else if (key === "Backspace") {
+        deleteLast();
+      } else if (key.toLowerCase() === "c" || key === "Escape") {
+        clearDisplay();
+      }
+    });
+  </script>
+</body>
+</html>

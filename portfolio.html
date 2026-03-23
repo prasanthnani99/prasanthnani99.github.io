@@ -1,232 +1,302 @@
-import Navbar from "@/components/portfolio/Navbar";
-import HeroSection from "@/components/portfolio/HeroSection";
-import AboutSection from "@/components/portfolio/AboutSection";
-import EducationSection from "@/components/portfolio/EducationSection";
-import SkillsSection from "@/components/portfolio/SkillsSection";
-import ProjectsSection from "@/components/portfolio/ProjectsSection";
-import ContactSection from "@/components/portfolio/ContactSection";
-import Footer from "@/components/portfolio/Footer";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ArrowDown, Send, Code, GraduationCap, Sparkles, Calculator, Glasses } from "lucide-react";
-/* ── Navbar ── */
-const navItems = ["Home", "About", "Education", "Skills", "Projects", "Contact"];
-const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("Home");
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <motion.header
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <span className="text-xl font-bold font-[family-name:var(--font-display)] text-gradient">Prasanth</span>
-        <nav className="hidden md:flex gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setActive(item)}
-              className={`text-sm font-medium transition-colors duration-200 ${
-                active === item ? "text-primary" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {item}
-            </a>
-          ))}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prasanth's portfolio</title>
+    
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+header {
+    background: #5850f6;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+header h1 {
+    display: inline;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: inline;
+}
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+
+section {
+    padding: 80px 20px;
+    margin-top: 60px;
+}
+
+
+.hero {
+    background: rgb(118, 52, 251);
+    color: white;
+    padding: 50px;
+}
+.hero span {
+    color: yellow;
+}
+.hero button {
+    background: #fff;
+    color: #007bff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+.hero button:hover {
+    background: #007bff;
+    color: white;
+}
+
+
+.skill {
+    margin: 10px auto;
+    width: 50%;
+}
+.progress-bar {
+    background: lightgray;
+    height: 20px;
+    border-radius: 5px;
+    position: relative;
+}
+.progress {
+    height: 100%;
+    background: #171718;
+    border-radius: 5px;
+}
+
+
+.project {
+    background: white;
+    padding: 15px;
+    margin: 10px auto;
+    width: 60%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px gray;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+input, textarea {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+}
+button {
+    background: #0a0a0a;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background: #222222;
+}
+.hero-image {
+    width: 300px;
+    height: auto;
+    border-radius: 50%; /* Makes the image circular */
+    display: inline-block;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+.hero h2, .hero p {
+    display: inline-block;
+    vertical-align: middle;
+}
+/* Education Section */
+#education {
+    padding: 20px;
+    background-color: #bcabe6;
+    text-align: center;
+}
+
+#education .education {
+    margin-bottom: 20px;
+}
+
+#education h3 {
+    color: #333;
+    font-weight: bold;
+}
+
+#education p {
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Achievements Section */
+.image-container {
+    display: flex;
+    gap: 15px; /* Space between images */
+    justify-content: center; /* Align images to the center horizontally */
+    flex-wrap: wrap; /* Wrap images if they don't fit in one row */
+}
+
+.image-container img {
+    width: 300px; /* Set the width of each image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Shadow effect */
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>My Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
-      </div>
-    </motion.header>
-  );
-};
-/* ── Section Wrapper ── */
-const SectionWrapper = ({ id, title, children }: { id: string; title: string; children: React.ReactNode }) => (
-  <section id={id} className="py-24 px-6">
-    <div className="max-w-5xl mx-auto">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-3xl md:text-4xl font-bold mb-12 text-center font-[family-name:var(--font-display)]"
-      >
-        <span className="text-gradient">{title}</span>
-      </motion.h2>
-      {children}
-    </div>
-  </section>
-);
-/* ── Hero ── */
-const HeroSection = () => (
-  <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-    <div className="absolute inset-0 overflow-hidden">
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[100px] animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/10 blur-[100px] animate-pulse-glow" style={{ animationDelay: "1s" }} />
-    </div>
-    <div className="relative z-10 text-center px-6 max-w-4xl">
-      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="mb-8">
-        <div className="w-40 h-40 mx-auto rounded-full bg-hero-gradient p-1 animate-float">
-          <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center text-5xl font-bold text-gradient font-[family-name:var(--font-display)]">P</div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero">
+            <img src="prasanth.jpg" alt="Prasanth's Photo" class="hero-image">
+            <h2>KUNDETI LEELA VENKATA SAI DURGA PRASANTH</h2><br>
         </div>
-      </motion.div>
-      <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 font-[family-name:var(--font-display)]">
-        Hi, I'm <span className="text-gradient">Prasanth</span>
-      </motion.h1>
-      <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="text-lg md:text-xl text-muted-foreground mb-4">
-        Kundeti Leela Venkata Sai Durga Prasanth
-      </motion.p>
-      <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="text-base md:text-lg text-muted-foreground mb-10">
-        Web Developer & CS Engineering Student
-      </motion.p>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.8 }} className="flex gap-4 justify-center">
-        <a href="#projects" className="px-8 py-3 rounded-full bg-hero-gradient text-primary-foreground font-semibold hover:opacity-90 transition-opacity glow-primary">View Projects</a>
-        <a href="#contact" className="px-8 py-3 rounded-full border border-border text-foreground font-semibold hover:bg-secondary transition-colors">Contact Me</a>
-      </motion.div>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="mt-16">
-        <a href="#about" className="inline-block animate-float"><ArrowDown className="w-6 h-6 text-muted-foreground" /></a>
-      </motion.div>
-    </div>
-  </section>
-);
-/* ── About ── */
-const aboutCards = [
-  { icon: Code, title: "Web Developer", desc: "Passionate about building beautiful, functional websites with modern technologies." },
-  { icon: GraduationCap, title: "CS Student", desc: "Pursuing B.Tech in Computer Science at Sasi Institute of Technology and Engineering." },
-  { icon: Sparkles, title: "Lifelong Learner", desc: "Always exploring new tools, frameworks, and approaches to solve real-world problems." },
-];
-const AboutSection = () => (
-  <SectionWrapper id="about" title="About Me">
-    <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto">
-      Hello! I'm <strong className="text-foreground">Prasanth</strong>, a web developer with a passion for crafting elegant digital experiences.
-    </motion.p>
-    <div className="grid md:grid-cols-3 gap-6">
-      {aboutCards.map((card, i) => (
-        <motion.div key={card.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} whileHover={{ y: -5, transition: { duration: 0.2 } }} className="bg-card-gradient border border-border rounded-xl p-6 text-center hover:glow-primary transition-shadow">
-          <card.icon className="w-10 h-10 mx-auto mb-4 text-primary" />
-          <h3 className="text-lg font-semibold mb-2 font-[family-name:var(--font-display)]">{card.title}</h3>
-          <p className="text-muted-foreground text-sm">{card.desc}</p>
-        </motion.div>
-      ))}
-    </div>
-  </SectionWrapper>
-);
-/* ── Education ── */
-const education = [
-  { degree: "B.Tech in Computer Science & Engineering", school: "Sasi Institute of Technology and Engineering", year: "2023 – 2027" },
-  { degree: "Intermediate (MPC)", school: "Sasi Junior College", year: "2021 – 2023" },
-  { degree: "High School", school: "Sasi High School", year: "2020 – 2021" },
-];
-const EducationSection = () => (
-  <SectionWrapper id="education" title="Education">
-    <div className="relative">
-      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border hidden md:block" />
-      <div className="space-y-12">
-        {education.map((edu, i) => (
-          <motion.div key={edu.degree} initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className={`md:flex items-center ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
-            <div className="md:w-1/2 px-6">
-              <div className={`bg-card-gradient border border-border rounded-xl p-6 ${i % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                <span className="text-xs font-semibold text-accent px-3 py-1 rounded-full bg-accent/10">{edu.year}</span>
-                <h3 className="text-lg font-semibold mt-3 font-[family-name:var(--font-display)]">{edu.degree}</h3>
-                <p className="text-muted-foreground text-sm mt-1">{edu.school}</p>
-              </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p><h2></h2>Hello! I'm <strong>Prasanth</strong>, A web developer with a passion for building beautiful and functional websites.
+        I am currently persuing Btech in the stream of Computer Science and Engineering at Sasi Institute of Technology and Engineering.</h2>
+    </p>
+    </section>
+        <!-- Education Section -->
+        <section id="education">
+            <h2>Education</h2>
+            <div class="education">
+                <h3>B.Tech in Computer Science and Engineering</h3>
+                <p>Sasi Institute of Technology and Engineering</p>
+                <p>2023 - 2027</p>
             </div>
-            <div className="hidden md:flex w-4 h-4 rounded-full bg-hero-gradient glow-primary mx-auto shrink-0" />
-            <div className="md:w-1/2" />
-          </motion.div>
-        ))}
-      </div>
+            <div class="education">
+                <h3>Intermediate in MPC</h3>
+                <p>Sasi Junior College</p>
+                <p>2021 - 2023</p>
+            </div>
+            <div class="education">
+                <h3>High School</h3>
+                <p>Sasi high school</p>
+                <p>2020 - 2021</p>
+            </div>
+        </section>
+    
+        <!-- Achievements Section -->
+<!-- Achievements Section -->
+<section id="achievements">
+    <h2>Achievements</h2>
+    <div class="image-container">
+        <img src="ach1.jpg" alt="Coding Contest">
+        <img src="ach2.jpg" alt="Full-Stack Certification">
+        <img src="ach3.jpg" alt="Research Paper">
+       
     </div>
-  </SectionWrapper>
-);
-/* ── Skills ── */
-const skills = [
-  { name: "C Programming", level: 70 },
-  { name: "Full Stack Development", level: 80 },
-  { name: "Python", level: 60 },
-  { name: "HTML / CSS", level: 85 },
-  { name: "JavaScript", level: 75 },
-];
-const SkillsSection = () => (
-  <SectionWrapper id="skills" title="Skills">
-    <div className="max-w-2xl mx-auto space-y-6">
-      {skills.map((skill, i) => (
-        <motion.div key={skill.name} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm font-medium">{skill.name}</span>
-            <span className="text-sm text-muted-foreground">{skill.level}%</span>
-          </div>
-          <div className="h-3 rounded-full bg-secondary overflow-hidden">
-            <motion.div initial={{ width: 0 }} whileInView={{ width: `${skill.level}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }} className="h-full rounded-full bg-hero-gradient" />
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </SectionWrapper>
-);
-/* ── Projects ── */
-const projects = [
-  { title: "Simple Calculator", desc: "A sleek calculator built using HTML, CSS, and JavaScript with responsive design.", icon: Calculator, tags: ["HTML", "CSS", "JavaScript"] },
-  { title: "Futuristic Lenses", desc: "A website showcasing futuristic lens technology with modern UI/UX.", icon: Glasses, tags: ["Web Design", "UI/UX", "CSS"] },
-];
-const ProjectsSection = () => (
-  <SectionWrapper id="projects" title="Projects">
-    <div className="grid md:grid-cols-2 gap-6">
-      {projects.map((project, i) => (
-        <motion.div key={project.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} whileHover={{ y: -5, transition: { duration: 0.2 } }} className="bg-card-gradient border border-border rounded-xl p-8 group hover:border-primary/40 transition-all hover:glow-primary">
-          <project.icon className="w-10 h-10 text-primary mb-4 group-hover:scale-110 transition-transform" />
-          <h3 className="text-xl font-semibold mb-2 font-[family-name:var(--font-display)]">{project.title}</h3>
-          <p className="text-muted-foreground text-sm mb-4">{project.desc}</p>
-          <div className="flex gap-2 flex-wrap">
-            {project.tags.map((tag) => (
-              <span key={tag} className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary">{tag}</span>
-            ))}
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </SectionWrapper>
-);
-/* ── Contact ── */
-const ContactSection = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-  return (
-    <SectionWrapper id="contact" title="Contact Me">
-      <motion.form initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
-        <input type="text" placeholder="Your Name" required className="w-full px-5 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition" />
-        <input type="email" placeholder="Your Email" required className="w-full px-5 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition" />
-        <textarea placeholder="Your Message" required rows={5} className="w-full px-5 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition resize-none" />
-        <button type="submit" className="w-full py-3 rounded-xl bg-hero-gradient text-primary-foreground font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity glow-primary">
-          <Send className="w-4 h-4" />
-          {submitted ? "Sent! ✓" : "Send Message"}
-        </button>
-      </motion.form>
-    </SectionWrapper>
-  );
-};
-/* ── Main Page ── */
-const Index = () => (
-  <div className="min-h-screen">
-    <Navbar />
-    <SkillsSection />
-    <ProjectsSection />
-    <ContactSection />
-    <Footer />
-    <footer className="py-8 text-center border-t border-border">
-      <p className="text-muted-foreground text-sm">© 2026 <span className="text-gradient font-semibold">Prasanth</span>. All rights reserved.</p>
-    </footer>
-  </div>
-);
+</section>
+
+    
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>My Skills</h2>
+        <div class="skill">
+            <p>C Programming</p>
+            <div class="progress-bar"><div class="progress" style="width: 70%;"></div></div>
+        </div>
+        <div class="skill">
+            <p>FullStack</p>
+            <div class="progress-bar"><div class="progress" style="width: 80%;"></div></div>
+        </div>
+        <div class="skill">
+            <p>PYTHON</p>
+            <div class="progress-bar"><div class="progress" style="width: 60%;"></div></div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project">
+            <h3>Project 1</h3>
+            <p>A simple Calculator built using HTML, CSS, and JavaScript.</p>
+        </div>
+        <div class="project">
+            <h3>Project 2</h3>
+            <p>A wesite based on the featuristic lenses</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form onsubmit="submitForm(event)">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <p id="responseMessage"></p>
+    </section>
+<script>
+    
+function sayHello() {
+    alert("Hello! Welcome to my portfolio.");
+}
+
+
+function submitForm(event) {
+    event.preventDefault(); 
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let message = document.getElementById("message").value;
+
+    if (name && email && message) {
+        document.getElementById("responseMessage").innerText = "Thank you, " + name + "! Your message has been sent.";
+    } else {
+        document.getElementById("responseMessage").innerText = "Please fill in all fields.";
+    }
+}
+
+
+</script>
+    
+
+</body>
+</html>
